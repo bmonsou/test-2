@@ -1,0 +1,156 @@
+package nl.sogyo.mankala;
+
+import junit.framework.TestCase;
+import org.junit.Assert;
+
+public class SpeelVakjeTest extends TestCase {
+
+    public void testInitastie(){
+        Player p = new Player();
+        int result = p.startVakje.getNumStone(0);
+        Assert.assertEquals(4, result);
+
+
+    }
+
+    public void testVakjeNaSpelleeg(){
+        Player p = new Player();
+        p.startVakje.play(0, 0);
+        int result = p.startVakje.getNumStone(0);
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testVakjeNaVakje1extra(){
+        Player p = new Player();
+        p.startVakje.play(0, 0);
+        int result = p.startVakje.getNumStone(1);
+        Assert.assertEquals(5, result);
+
+    }
+
+    public void testLasteVakje1extra(){
+        Player p = new Player();
+        p.startVakje.play(0, 0);
+        int result = p.startVakje.getNumStone(4);
+        Assert.assertEquals(5, result);
+
+    }
+
+    public void testVakjeNaLasteVakjeGeenExtra(){
+        Player p = new Player();
+        p.startVakje.play(0, 0);
+        int result = p.startVakje.getNumStone(5);
+        Assert.assertEquals(4, result);
+
+    }
+
+    public void testEindigedinKalahaNogEenBeurt(){
+        Player p = new Player();
+        p.startVakje.play(2, 0);
+        int result = p.startVakje.getNumStone(0);
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testEindigedinKalahaNogEenBeurt2(){
+    Player p = new Player();
+    p.startVakje.play(9,1);
+    int result = p.startVakje.getNumStone(0);
+    Assert.assertEquals(0, result);
+
+}
+
+    public void testSla(){
+        Player p = new Player();
+        p.startVakje.setnumStones(1,0);
+        p.startVakje.setnumStones(0,1);
+        p.startVakje.play(0,0);
+        int result = p.startVakje.getNumStone(11);
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testSla2(){
+        Player p = new Player();
+        p.startVakje.setnumStones(4, 0);
+        p.startVakje.play(0, 0);
+        int result = p.startVakje.getNumStone(6);
+        Assert.assertEquals(4, result);
+
+    }
+
+    public void testEndgameSweep(){
+        Player p = new Player();
+        p.startVakje.endgamesweep(0, 14);
+        int result = p.startVakje.getNumStone(1);
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testEndgameSweep2(){
+        Player p = new Player();
+        p.startVakje.endgamesweep(0, 14);
+        int result = p.startVakje.getNumStone(6);
+        Assert.assertEquals(24, result);
+
+    }
+
+    public void testKlaarCheak(){
+        Player p = new Player();
+        for(int i=0;i<6;i++) {
+            p.startVakje.setnumStones(i,0);
+        }
+        p.cheak(0);
+        int result = p.startVakje.getNumStone(8);
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testKlaarCheak2(){
+        Player p = new Player();
+        for(int i=0;i<6;i++) {
+            p.startVakje.setnumStones(i,0);
+        }
+        p.cheak(0);
+        int result = p.startVakje.getNumStone(13);
+        Assert.assertEquals(24, result);
+
+    }
+
+    public void testVolgendeSpeller(){
+        Player p = new Player();
+        p.beurt(0,false);
+        int result = p.aanbeurt;
+        Assert.assertEquals(1, result);
+
+    }
+
+    public void testVolgendeSpeller2(){
+        Player p = new Player();
+        p.beurt(1,false);
+        int result = p.aanbeurt;
+        Assert.assertEquals(0, result);
+
+    }
+
+    public void testZieWinnar(){
+        Player p = new Player();
+        for(int i=0;i<6;i++) {
+            p.startVakje.setnumStones(i,0);
+        }
+        boolean test=p.cheak(0);
+        Assert.assertEquals(false, test);
+
+    }
+
+    public void testSlategenstanderKalahaover(){
+        Player p = new Player();
+        p.startVakje.setnumStones(5,13);
+        p.startVakje.play(5,0);
+        int result=p.startVakje.getNumStone(13);
+        Assert.assertEquals(0, result);
+
+    }
+
+}

@@ -1,0 +1,95 @@
+package nl.sogyo.mankala;
+
+/**
+ * Created by bmonsou on 11-3-2015.
+ */
+public class Kahala extends Vakje {
+    private int numStone;
+    private Vakje volgende;
+    private Player p;
+    private int owner=0;
+    public Kahala(int teller, Vakje ref, int count,int owner, Player p){
+        this.owner=owner;
+        this.p=p;
+        if(count==13){
+            volgende=ref;
+            numStone=0;
+        }
+        else {
+            numStone = 0;
+            volgende = new SpeelVakje(teller, ref, ++count,++owner,p);
+        }
+    }
+
+    public boolean cheak(int count){
+        if (count==0) {
+            return true;
+        }
+        else {
+            return volgende.cheak(0);
+        }
+    }
+
+    public void ontvang(int stonesPased,int turn) {
+        if(turn==owner) {
+            numStone++;
+            geefdoor(stonesPased-1,turn);
+        }
+        else{
+            geefdoor(stonesPased,turn);
+        }
+    }
+
+    private void geefdoor(int stonesPased,int turn) {
+        if (stonesPased == 1) {
+            volgende.onvanglaste(turn);
+        } else
+            volgende.ontvang(stonesPased, turn);
+    }
+
+    public void endgamesweep(int sum, int roundcount){
+        if (roundcount>0) {
+            volgende.endgamesweep(0, roundcount - 1);
+            numStone += sum ;
+        }
+    }
+
+    public void onvanglaste(int turn) {
+        if (turn==owner) {
+            numStone++;
+            p.beurt(turn,true);
+        }
+        else {
+            volgende.onvanglaste(turn);
+        }
+    }
+
+    public int Sla(int teller, boolean kalaha) {
+
+    numStone =numStone + volgende.Sla(teller,true);
+      return 0;
+    }
+
+    public void play(int teller,int turn) {
+        if (teller != 0) {
+            volgende.play(--teller, turn);
+        }
+        else{
+            System.out.println("error");
+            p.beurt(turn,true);
+        }
+
+        }
+
+    public int getNumStone(int teller) {
+       return super.getNumStone(teller,volgende,numStone);
+
+    }
+
+    protected void setnumStones(int teller,int stones){//for testing only
+        if(teller==0) {
+            numStone = stones;
+        }
+        else volgende.setnumStones(--teller,stones);
+    }
+}

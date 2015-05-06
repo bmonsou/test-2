@@ -81,8 +81,8 @@ public class Kahala extends Vakje {
 
         }
 
-    public int getNumStone(int teller) {
-       return super.getNumStone(teller,volgende,numStone);
+    public int getNumStone(int tellers) {
+       return super.getNumStone(tellers,volgende,numStone);
 
     }
 

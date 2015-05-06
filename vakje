@@ -1,0 +1,29 @@
+package nl.sogyo.mankala;
+
+/**
+ * Created by bmonsou on 11-3-2015.
+ */
+public abstract class Vakje {
+    private Vakje volgende;
+    private int numStone;
+    private int owner;
+    protected abstract void ontvang(int i,int c) ;
+    protected abstract void onvanglaste(int c) ;
+    protected abstract int getNumStone(int i) ;
+    protected int getNumStone(int teller, Vakje ref, int numbstones){
+        volgende=ref;
+        numStone=numbstones;
+        if(teller==0) {
+            return numStone;
+        }
+        else{
+            return volgende.getNumStone(--teller);
+        }
+    } ;
+    protected abstract void setnumStones(int i,int stones);//testing only
+    protected abstract void endgamesweep(int i,int c);
+    protected abstract int Sla(int i, boolean kalaha);
+    protected abstract boolean cheak(int a);
+    protected abstract void play(int i,int c);
+
+}

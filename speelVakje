@@ -1,0 +1,130 @@
+package nl.sogyo.mankala;
+
+/**
+ * Created by bmonsou on 11-3-2015.
+ */
+public class SpeelVakje extends Vakje {
+    private int numStone;
+    private Vakje volgende;
+    private int owner;
+
+    public SpeelVakje(int startStoneNumber, int owner, Player p) {
+        numStone = startStoneNumber;
+        int count = 0;
+        volgende = new SpeelVakje(startStoneNumber, this, ++count, owner, p);
+        this.owner=owner;
+    }
+
+    public SpeelVakje(int startStoneNumber, Vakje ref, int count, int owner, Player p) {
+        this.owner=owner;
+        numStone = startStoneNumber;
+        if (count == 5) {
+            volgende = new Kahala(startStoneNumber, ref, ++count, owner, p);
+        } else if (count == 12) {
+            volgende = new Kahala(startStoneNumber, ref, ++count, owner, p);
+        } else {
+            volgende = new SpeelVakje(startStoneNumber, ref, ++count, owner, p);
+        }
+    }
+
+    protected boolean cheak(int count) {
+        if (count == 0) {
+            if (numStone == 0) {
+                return volgende.cheak(0);
+            } else {
+                return false;
+            }
+        } else return volgende.cheak(count);
+    }
+
+    protected void endgamesweep(int sum, int roundCount) {
+        if (roundCount > 0) {
+            volgende.endgamesweep((sum + numStone), roundCount - 1);
+            numStone = 0;
+        }
+    }
+
+    protected int Sla(int teller, boolean kalahaTegenGekomen) {
+        teller=afstandTegenLicher(teller,kalahaTegenGekomen);
+        if (isTeggenlicher(teller)) {
+                return geslagen();
+        } else {
+            return volgende.Sla(teller, kalahaTegenGekomen);
+        }
+    }
+
+    private boolean isTeggenlicher(int teller) {
+        if(teller==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private int afstandTegenLicher(int teller, boolean kalahaTegenGekomen) {
+        if(kalahaTegenGekomen){
+            return ++teller;
+        }
+        else{
+          return --teller;
+        }
+    }
+
+    private int geslagen() {
+        int temp = numStone;
+        numStone = 0;
+        return temp;
+    }
+
+    protected void play(int teller, int owner) {
+        if (teller == 0) {
+            wordGespelt();
+        } else {
+            volgende.play(--teller, owner);
+        }
+    }
+
+    private void wordGespelt() {
+        int temp = numStone;
+        if (numStone == 1) {
+            numStone = 0;
+            volgende.onvanglaste(owner);
+        } else {
+            numStone = 0;
+            volgende.ontvang(temp, owner);
+        }
+    }
+
+    protected void ontvang(int stoneCounter, int owner) {
+        numStone++;
+       geefdoor(stoneCounter, owner);
+    }
+
+    private void geefdoor(int stoneCounter, int owner) {
+        if (stoneCounter - 1 == 1) {
+            volgende.onvanglaste(owner);
+        } else {
+            volgende.ontvang(stoneCounter - 1, owner);
+        }
+
+    }
+
+    protected void onvanglaste(int turn) {
+        numStone++;
+        if (numStone == 1 && turn == owner) {
+            Sla(0, false);
+        }
+    }
+
+    protected int getNumStone(int teller) {
+        return super.getNumStone(teller,volgende,numStone);
+    }
+
+    protected void setnumStones(int i,int stones){//for testing only
+        if(i==0) {
+            numStone = stones;
+        }
+        else volgende.setnumStones(--i,stones);
+    }
+}

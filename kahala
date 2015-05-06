@@ -21,8 +21,8 @@ public class Kahala extends Vakje {
         }
     }
 
-    public boolean cheak(int count){
-        if (count==0) {
+    public boolean cheak(int counts){
+        if (counts==0) {
             return true;
         }
         else {
@@ -40,11 +40,11 @@ public class Kahala extends Vakje {
         }
     }
 
-    private void geefdoor(int stonesPased,int turn) {
-        if (stonesPased == 1) {
+    private void geefdoor(int stonesPaseds,int turn) {
+        if (stonesPaseds == 1) {
             volgende.onvanglaste(turn);
         } else
-            volgende.ontvang(stonesPased, turn);
+            volgende.ontvang(stonesPaseds, turn);
     }
 
     public void endgamesweep(int sum, int roundcount){

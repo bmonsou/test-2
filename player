@@ -1,0 +1,102 @@
+package nl.sogyo.mankala;
+
+/**
+ * Created by bmonsou on 11-3-2015.
+ */
+
+import java.util.Scanner;
+
+public class Player {
+    SpeelVakje startVakje;
+    private int startStoneNumber = 4;
+    protected int aanbeurt=0;//public tijdens test fase
+    private int winnar;//for test
+    public Player() {
+        startVakje = new SpeelVakje(startStoneNumber,0,this);
+    }
+
+    public void beurt(int turn,boolean again){
+        //print();
+        aanbeurt=turn;
+        if(!again){
+          switchpalyer();
+        }
+        startVakje.play(0,0);
+        /*again=false;
+        if(cheak(aanbeurt)) {
+            int tespellenvakje;
+            System.out.println("nl.sogyo.mankala.Player "+(aanbeurt+1)+" aanbeurt entervakje: ");
+            Scanner user_input = new Scanner(System.in);
+             tespellenvakje = Integer.parseInt(user_input.nextLine());
+            if(aanbeurt==0 && tespellenvakje>=0 && tespellenvakje<6 && startVakje.getNumStone(tespellenvakje)!=0) {
+                startVakje.play(tespellenvakje, aanbeurt);
+            }
+            else if(aanbeurt==1 && tespellenvakje>=0 && tespellenvakje<6 && startVakje.getNumStone(tespellenvakje+7)!=0) {
+                startVakje.play((tespellenvakje+7), aanbeurt);
+            }
+            else{
+                System.out.println("error iligeale move try agine");
+                beurt(aanbeurt,true);
+            }
+        }
+        else{
+            endgame();
+        }
+        beurt(aanbeurt,false);*/
+
+
+    }
+
+    private void switchpalyer() {
+        if(aanbeurt==0){
+            aanbeurt=1;
+        }
+        else{
+            aanbeurt=0;
+        }
+    }
+
+    public boolean cheak(int i){
+
+       if (startVakje.cheak(i)){
+           startVakje.endgamesweep(0,14);
+           return false;
+       }
+        return true;
+    }
+    /*private void print() {
+        for (int i=12;i>6;i--){
+            System.out.print(" "+startVakje.getNumStone(i));
+        }
+        System.out.println();
+        System.out.println(startVakje.getNumStone(13) + "           " + startVakje.getNumStone(6));
+        for (int i=0;i<6;i++){
+            System.out.print(" "+startVakje.getNumStone(i));
+        }
+        System.out.println();
+    }
+    public void endgame() {
+        if(startVakje.getNumStone(6)>startVakje.getNumStone(13)){
+            System.out.println("winnar is player 1");
+            print();
+            System.exit(0);
+            winnar=0;
+        }
+        else{
+            System.out.println("winnar is player 2");
+            print();
+            System.exit(0);
+            winnar=1;
+        }
+
+
+    }
+    public static void main(String[] args) {
+        Player p = new Player();
+        p.beurt((int)(Math.random()*2),false);
+    }*/
+}
+
+
+
+
